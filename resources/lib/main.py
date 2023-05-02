@@ -22,7 +22,7 @@ addon_id = 'plugin.video.youtube'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 #datapath = xbmc.translatePath(selfAddon.getAddonInfo('profile')).decode('utf-8')
 #addonfolder = xbmc.translatePath(selfAddon.getAddonInfo('path')).decode('utf-8')
-value_1 = selfAddon.getSetting('piped.instance')
+value_1 = selfAddon.getSettingString('piped.instance')
 
 def get_subtitle_from_piped(subtitle: Optional[StreamSubtitle], frame_rate: float) -> Optional[str]:
     if subtitle is None:
@@ -79,7 +79,6 @@ def get_playlist_ready(
 
 def play_video(path):
     instance = value_1
-    print(instance)
     response = requests.get(f'https://{instance}/streams/{path}')
     piped_response: StreamResponse = response.json()
 
@@ -182,12 +181,14 @@ def router(paramstring, action = None):
         # If this add-on is registered as plugin.video.youtube, below will
         # handle NewPipe's "Play with Kodi" action. Makes it easy to share
         # video URLs from a phone
-        if action == "/play/":
+        elif action == "/play/":
             video_id = paramstring.split('=', 1)[1]
             if video_id:
                 play_video(video_id)
+            else:
+                raise ValueError('Invalid paramstring: {}!'.format(paramstring))
         else:
-            raise ValueError('Invalid paramstring: {}!'.format(paramstring))
+            raise ValueError('Invalid action: {}' % action)
 
 if __name__ == '__main__':
     [*_, action] = [segment for segment in sys.argv[0].split('/') if segment != '']

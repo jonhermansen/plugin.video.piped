@@ -1,6 +1,8 @@
 #!/bin/bash
 
-pluginVersion=$(python3 version.py)
+source .env.default
+source .env
 
-git archive plugin.video.piped-$(pluginVersion).zip
+./generate_metadata.py
 
+zip -r ${pluginName}-${pluginVersion}.zip .
