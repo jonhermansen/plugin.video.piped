@@ -13,6 +13,7 @@ import xbmcgui
 import xbmcvfs
 import xbmcplugin
 import xbmcaddon
+import xbmc
 
 from piped.types import Stream, StreamResponse, StreamSubtitle
 
@@ -23,6 +24,7 @@ selfAddon = xbmcaddon.Addon(id=addon_id)
 #datapath = xbmc.translatePath(selfAddon.getAddonInfo('profile')).decode('utf-8')
 #addonfolder = xbmc.translatePath(selfAddon.getAddonInfo('path')).decode('utf-8')
 value_1 = selfAddon.getSettingString('piped.instance')
+tmp_dir = xbmc.translatePath('special://temp')
 
 def get_subtitle_from_piped(subtitle: Optional[StreamSubtitle], frame_rate: float) -> Optional[str]:
     if subtitle is None:
@@ -36,7 +38,7 @@ def get_subtitle_from_piped(subtitle: Optional[StreamSubtitle], frame_rate: floa
         ttml = Ttml2Ssa(source_fps=frame_rate)
 
         ttml.parse_ttml_from_string(response.text)
-        path = "/data/local/tmp/piped-subtitles.srt"
+        path = os.path.join(tmp_dir, "piped-subtitles.srt")
         ttml.write2file(path)
         return path
     except Exception:
@@ -115,7 +117,7 @@ def play_video(path):
     [protocol, _, domain, *__] = piped_response['hls'].split('/')
 
     base_url = f"{protocol}//{domain}"
-    base_dir = "/data/local/tmp/piped/hls-manifests"
+    base_dir = os.path.join(tmp_dir, "piped/hls-manifests")
 
     shutil.rmtree(base_dir, ignore_errors=True)
     os.makedirs(base_dir)
@@ -185,10 +187,10 @@ def router(paramstring, action = None):
             video_id = paramstring.split('=', 1)[1]
             if video_id:
                 play_video(video_id)
-            else:
-                raise ValueError('Invalid paramstring: {}!'.format(paramstring))
-        else:
-            raise ValueError('Invalid action: {}' % action)
+        #     else:
+        #         raise ValueError('Invalid paramstring: {}!'.format(paramstring))
+        # else:
+        #     raise ValueError('Invalid action: {}' % action)
 
 if __name__ == '__main__':
     [*_, action] = [segment for segment in sys.argv[0].split('/') if segment != '']
