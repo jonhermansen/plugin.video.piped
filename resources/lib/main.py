@@ -13,7 +13,6 @@ import xbmcgui
 import xbmcvfs
 import xbmcplugin
 import xbmcaddon
-import xbmc
 
 from piped.types import Stream, StreamResponse, StreamSubtitle
 
@@ -24,7 +23,7 @@ selfAddon = xbmcaddon.Addon(id=addon_id)
 #datapath = xbmc.translatePath(selfAddon.getAddonInfo('profile')).decode('utf-8')
 #addonfolder = xbmc.translatePath(selfAddon.getAddonInfo('path')).decode('utf-8')
 value_1 = selfAddon.getSettingString('piped.instance')
-tmp_dir = xbmc.translatePath('special://temp')
+tmp_dir = xbmcvfs.translatePath('special://temp')
 
 def get_subtitle_from_piped(subtitle: Optional[StreamSubtitle], frame_rate: float) -> Optional[str]:
     if subtitle is None:
