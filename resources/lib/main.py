@@ -36,7 +36,7 @@ def get_subtitle_from_piped(subtitle: Optional[StreamSubtitle], frame_rate: floa
         ttml = Ttml2Ssa(source_fps=frame_rate)
 
         ttml.parse_ttml_from_string(response.text)
-        path = "/tmp/piped-subtitles.srt"
+        path = "/data/local/tmp/piped-subtitles.srt"
         ttml.write2file(path)
         return path
     except Exception:
@@ -115,7 +115,7 @@ def play_video(path):
     [protocol, _, domain, *__] = piped_response['hls'].split('/')
 
     base_url = f"{protocol}//{domain}"
-    base_dir = "/tmp/piped/hls-manifests"
+    base_dir = "/data/local/tmp/piped/hls-manifests"
 
     shutil.rmtree(base_dir, ignore_errors=True)
     os.makedirs(base_dir)
