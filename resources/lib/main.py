@@ -12,11 +12,14 @@ from urllib.parse import urlencode, parse_qsl
 import xbmcgui
 import xbmcvfs
 import xbmcplugin
+from ...kodion import Context as __Context
 
 from piped.types import Stream, StreamResponse, StreamSubtitle
 
 
 _HANDLE = int(sys.argv[1])
+__context = __Context(plugin_id='plugin.video.youtube')
+__settings = __context.get_settings()
 
 def get_subtitle_from_piped(subtitle: Optional[StreamSubtitle], frame_rate: float) -> Optional[str]:
     if subtitle is None:
@@ -72,7 +75,9 @@ def get_playlist_ready(
 
 
 def play_video(path):
-    response = requests.get(f'https://pipedapi.syncpundit.io/streams/{path}')
+    instance = __settings.get_string('test01')
+    print(instance)
+    response = requests.get(f'https://{instance}/streams/{path}')
     piped_response: StreamResponse = response.json()
 
     master_playlist = m3u8.load(piped_response['hls'])
