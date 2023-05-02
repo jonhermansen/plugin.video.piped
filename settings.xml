@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<settings version="1">
+	<section id="plugin.video.piped">
+		<category id="general" label="" help="">
+			<group id="1" label="">
+        <setting type="text" id="test01" label="Instance" default="pipedapi.kavin.rocks"/>
+			</group>
+		</category>
+	</section>
+</settings>

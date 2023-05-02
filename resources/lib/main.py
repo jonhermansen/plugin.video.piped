@@ -72,7 +72,7 @@ def get_playlist_ready(
 
 
 def play_video(path):
-    response = requests.get(f'https://pipedapi.kavin.rocks/streams/{path}')
+    response = requests.get(f'https://pipedapi.syncpundit.io/streams/{path}')
     piped_response: StreamResponse = response.json()
 
     master_playlist = m3u8.load(piped_response['hls'])
