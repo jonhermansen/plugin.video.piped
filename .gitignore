@@ -65,3 +65,6 @@ target/
 *.zip
 /extra-lib
 /.vscode
+
+# Emacs
+.#*

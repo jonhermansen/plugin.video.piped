@@ -165,15 +165,21 @@ def play_video(path):
 
 def router(paramstring, action = None):
     """
-    Hold over from the example. Might be useful later
+    Handle command data sent from Kodi
     """
     params = dict(parse_qsl(paramstring))
     if action:
         if action == 'play':
             play_video(params['video_id'])
+        # If this add-on is registered as plugin.video.youtube, below will
+        # handle NewPipe's "Play with Kodi" action. Makes it easy to share
+        # video URLs from a phone
+        if action == "/play/":
+            video_id = paramstring.split('=', 1)[1]
+            if video_id:
+                play_video(video_id)
         else:
             raise ValueError('Invalid paramstring: {}!'.format(paramstring))
-
 
 if __name__ == '__main__':
     [*_, action] = [segment for segment in sys.argv[0].split('/') if segment != '']

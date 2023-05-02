@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.piped"
-  version="__PLUGIN_VERSION__"
+<addon id="plugin.video.youtube"
+  version="0.0.1"
   name="Piped Video Player"
   provider-name="mattrcole">
   <requires>
