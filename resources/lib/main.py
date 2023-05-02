@@ -22,7 +22,7 @@ addon_id = 'plugin.video.youtube'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 #datapath = xbmc.translatePath(selfAddon.getAddonInfo('profile')).decode('utf-8')
 #addonfolder = xbmc.translatePath(selfAddon.getAddonInfo('path')).decode('utf-8')
-value_1 = selfAddon.getSetting('test01')
+value_1 = selfAddon.getSetting('piped.instance')
 
 def get_subtitle_from_piped(subtitle: Optional[StreamSubtitle], frame_rate: float) -> Optional[str]:
     if subtitle is None:
