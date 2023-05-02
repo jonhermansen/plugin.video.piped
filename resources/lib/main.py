@@ -12,14 +12,17 @@ from urllib.parse import urlencode, parse_qsl
 import xbmcgui
 import xbmcvfs
 import xbmcplugin
-from ...kodion import Context as __Context
+import xbmcaddon
 
 from piped.types import Stream, StreamResponse, StreamSubtitle
 
 
 _HANDLE = int(sys.argv[1])
-__context = __Context(plugin_id='plugin.video.youtube')
-__settings = __context.get_settings()
+addon_id = 'plugin.video.youtube'
+selfAddon = xbmcaddon.Addon(id=addon_id)
+#datapath = xbmc.translatePath(selfAddon.getAddonInfo('profile')).decode('utf-8')
+#addonfolder = xbmc.translatePath(selfAddon.getAddonInfo('path')).decode('utf-8')
+value_1 = selfAddon.getSetting('test01')
 
 def get_subtitle_from_piped(subtitle: Optional[StreamSubtitle], frame_rate: float) -> Optional[str]:
     if subtitle is None:
@@ -75,7 +78,7 @@ def get_playlist_ready(
 
 
 def play_video(path):
-    instance = __settings.get_string('test01')
+    instance = value_1
     print(instance)
     response = requests.get(f'https://{instance}/streams/{path}')
     piped_response: StreamResponse = response.json()
