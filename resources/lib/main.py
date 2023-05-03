@@ -13,6 +13,7 @@ import xbmcgui
 import xbmcvfs
 import xbmcplugin
 import xbmcaddon
+import xbmc
 
 from piped.types import Stream, StreamResponse, StreamSubtitle
 
@@ -168,6 +169,14 @@ def play_video(path):
         "thumb": piped_response["thumbnailUrl"]
     })
 
+    def send_notification(method, data):
+        xbmc.executebuiltin('NotifyAll(plugin.video.youtube,%s,%s)' % (method, data))
+
+    send_notification('PlaybackInit', {
+        'video_id': path,
+        #'channel_id': playback_json.get('channel_id', ''),
+        #'status': playback_json.get('video_status', {})
+    })
     xbmcplugin.setResolvedUrl(handle=_HANDLE, succeeded=True, listitem=list_item)
 
 
@@ -183,7 +192,7 @@ def router(paramstring, action = None):
         # handle NewPipe's "Play with Kodi" action. Makes it easy to share
         # video URLs from a phone
         elif action == "/play/":
-            video_id = paramstring.split('=', 1)[1]
+            video_id = paramstring.split('=', 1)[1] # /play/?videoid=...
             if video_id:
                 play_video(video_id)
         #     else:
